@@ -84,11 +84,6 @@ class Field
       @field_size = field_size
     end
 
-    def self.create(field_type, field_size)
-      field = self.new(field_type, field_size)
-      @@fields << field
-    end
-
     def self.harvest
       total = 0
       @@fields.each do |field|
@@ -126,17 +121,24 @@ class Corn < Field
     @yield = field_size * CORN
   end
 
+  def self.create(field_type, field_size)
+    corn = Corn.new(field_type, field_size)
+    @@fields << corn
+  end
+
 end
 
 
 class Wheat < Field
 
   def initialize(field_type, field_size)
-    binding.pry
     super(field_type, field_size)
-    @field_type = field_type
-    @field_size = field_size
     @yield = field_size * WHEAT
+  end
+
+  def self.create(field_type, field_size)
+    wheat = Wheat.new(field_type, field_size)
+    @@fields << wheat
   end
 
 end
