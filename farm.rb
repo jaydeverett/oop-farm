@@ -43,9 +43,9 @@ class Farm
     field_size = gets.chomp.to_i
 
     if field_type == 'CORN'
-      Corn.create('CORN', field_size)
+      Corn.new('CORN', field_size)
     elsif field_type == 'WHEAT'
-      Wheat.create('WHEAT', field_size)
+      Wheat.new('WHEAT', field_size)
     else
       puts 'Sorry, that is not a valid entry'
       main_menu
@@ -74,7 +74,7 @@ class Field
     @@fields = []
     @@total_yield = 0
 
-    attr_accessor :field_size, :yield
+    attr_accessor :field_size, :field_type, :yield
 
     CORN = 20
     WHEAT = 30
@@ -89,10 +89,12 @@ class Field
       @@fields.each do |field|
         total += field.yield
         puts "Harvesting #{total} tons of food from a #{field.field_size} hectare field."
+        @@total_yield = total + field.field_size * field.yield
+        puts "The farm has now harvested #{self.total_yield} tons of food in total"
       end
-      @@total_yield = total + field.size * field.yield
 
-      puts "The farm has now harvested #{self.total_yield} tons of food in total"
+
+
 
     end
 
@@ -107,6 +109,7 @@ class Field
     def self.status
       @@fields.each do |field|
       puts "#{field.field_type} field is #{field.field_size} hectares."
+      puts "#{field.yield} tons of food have been harvested from this farm!"
     end
     end
 
@@ -119,11 +122,7 @@ class Corn < Field
   def initialize(field_type, field_size)
     super(field_type, field_size)
     @yield = field_size * CORN
-  end
-
-  def self.create(field_type, field_size)
-    corn = Corn.new(field_type, field_size)
-    @@fields << corn
+    @@fields << self
   end
 
 end
@@ -134,11 +133,7 @@ class Wheat < Field
   def initialize(field_type, field_size)
     super(field_type, field_size)
     @yield = field_size * WHEAT
-  end
-
-  def self.create(field_type, field_size)
-    wheat = Wheat.new(field_type, field_size)
-    @@fields << wheat
+    @@fields << self
   end
 
 end
