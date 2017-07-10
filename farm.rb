@@ -103,7 +103,7 @@ class Field
       @@fields.each do |field|
         total += field.yield
       end
-      puts "The farm has harvested #{total} tons of food in total."
+     return total
     end
 
     def self.status
